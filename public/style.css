@@ -1,0 +1,413 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --bg-base: #07070d;
+    --bg-deep: #0a0a14;
+    --bg-navy: #0f1130;
+    --surface: rgba(22, 24, 48, 0.55);
+    --surface-strong: rgba(28, 30, 60, 0.75);
+    --border: rgba(167, 139, 250, 0.18);
+    --border-strong: rgba(167, 139, 250, 0.4);
+    --primary: #7c3aed;
+    --primary-deep: #6d28d9;
+    --primary-light: #a78bfa;
+    --text: #ecedf6;
+    --text-dim: #a4a8c4;
+    --text-muted: #6e7295;
+    --success: #34d399;
+    --error: #f87171;
+    --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.65);
+    --glow: 0 0 40px rgba(124, 58, 237, 0.45);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse 80% 60% at 15% 0%, rgba(124, 58, 237, 0.22), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 90% 100%, rgba(99, 102, 241, 0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg-base) 0%, var(--bg-deep) 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 25% 75%, rgba(124, 58, 237, 0.08) 0, transparent 35%),
+        radial-gradient(circle at 75% 25%, rgba(167, 139, 250, 0.08) 0, transparent 35%);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-2%, 2%) scale(1.05); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 88px 32px 140px;
+}
+
+/* ---- Typography ---- */
+
+h1 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: clamp(2.25rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #ffffff 0%, #d8ccff 45%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 14px;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-bottom: 64px;
+    letter-spacing: 0.005em;
+}
+
+h2 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    margin-bottom: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+h2::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    box-shadow: 0 0 14px var(--primary-light);
+    animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(1.3); }
+}
+
+.candidates,
+.results {
+    margin-bottom: 56px;
+}
+
+/* ---- Candidate cards (glassmorphism) ---- */
+
+#candidate-list {
+    display: grid;
+    gap: 16px;
+}
+
+.candidate {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform 260ms var(--ease),
+                border-color 260ms var(--ease),
+                box-shadow 260ms var(--ease),
+                background 260ms var(--ease);
+    overflow: hidden;
+}
+
+.candidate::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.0) 0%, rgba(124, 58, 237, 0.08) 100%);
+    opacity: 0;
+    transition: opacity 260ms var(--ease);
+    pointer-events: none;
+}
+
+.candidate:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    background: var(--surface-strong);
+    box-shadow:
+        0 18px 48px rgba(124, 58, 237, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.candidate:hover::after {
+    opacity: 1;
+}
+
+.candidate span {
+    position: relative;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+.candidate span::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 14px;
+    vertical-align: middle;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+}
+
+/* ---- Vote button ---- */
+
+.candidate button {
+    position: relative;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.015em;
+    padding: 11px 24px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+    box-shadow:
+        0 4px 14px rgba(124, 58, 237, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: transform 180ms var(--ease),
+                box-shadow 280ms var(--ease),
+                filter 180ms var(--ease);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.candidate button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    opacity: 0;
+    transition: opacity 240ms var(--ease);
+    z-index: -1;
+}
+
+.candidate button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow:
+        0 8px 28px rgba(124, 58, 237, 0.6),
+        0 0 36px rgba(167, 139, 250, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.candidate button:hover:not(:disabled)::before {
+    opacity: 1;
+}
+
+.candidate button:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 80ms;
+}
+
+.candidate button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: grayscale(0.35);
+}
+
+/* ---- Results (progress-bar rows) ----
+   JS may set --pct on each li (e.g. "62%") to make bars proportional.
+   Default 100% gives every row a subtle gradient lane behind the text. */
+
+#results-list {
+    display: grid;
+    gap: 12px;
+    list-style: none;
+}
+
+#results-list li {
+    position: relative;
+    list-style: none;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--text);
+    padding: 18px 24px;
+    background: rgba(15, 17, 36, 0.55);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 240ms var(--ease),
+                transform 240ms var(--ease);
+}
+
+#results-list li::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: var(--pct, 100%);
+    background:
+        linear-gradient(90deg,
+            rgba(124, 58, 237, 0.32) 0%,
+            rgba(167, 139, 250, 0.14) 100%);
+    border-right: 2px solid rgba(167, 139, 250, 0.55);
+    box-shadow: 4px 0 20px rgba(167, 139, 250, 0.25);
+    z-index: -1;
+    transition: width 700ms var(--ease-spring);
+}
+
+#results-list li:hover {
+    border-color: var(--border-strong);
+    transform: translateX(3px);
+}
+
+/* ---- Status toast ---- */
+
+#status.status {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    max-width: 380px;
+    padding: 14px 20px 14px 18px;
+    background: rgba(18, 20, 42, 0.88);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    box-shadow: var(--shadow-lg);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+    transition: opacity 300ms var(--ease),
+                transform 300ms var(--ease-spring),
+                border-color 240ms var(--ease);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#status.status:not(:empty) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+#status.status::before {
+    content: '';
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    box-shadow: 0 0 12px var(--primary-light);
+    animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+#status.status--success {
+    border-color: rgba(52, 211, 153, 0.35);
+}
+
+#status.status--success::before {
+    background: var(--success);
+    box-shadow: 0 0 14px var(--success);
+    animation: none;
+}
+
+#status.status--error {
+    border-color: rgba(248, 113, 113, 0.4);
+}
+
+#status.status--error::before {
+    background: var(--error);
+    box-shadow: 0 0 14px var(--error);
+    animation: none;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 600px) {
+    .container {
+        padding: 56px 20px 100px;
+    }
+
+    .candidate {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding: 20px;
+    }
+
+    .candidate button {
+        width: 100%;
+        padding: 13px;
+    }
+
+    #status.status {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        max-width: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

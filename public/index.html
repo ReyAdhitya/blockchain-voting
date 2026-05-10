@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Voting</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Blockchain Voting System</h1>
+        <p class="subtitle">Powered by Ethereum Smart Contract</p>
+
+        <div class="candidates">
+            <h2>Candidates</h2>
+            <div id="candidate-list"></div>
+        </div>
+
+        <div class="results">
+            <h2>Live Results</h2>
+            <div id="results-list"></div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.16.0/dist/ethers.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

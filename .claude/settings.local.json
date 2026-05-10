@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(where git *)",
+      "Bash(where gh *)"
+    ]
+  }
+}

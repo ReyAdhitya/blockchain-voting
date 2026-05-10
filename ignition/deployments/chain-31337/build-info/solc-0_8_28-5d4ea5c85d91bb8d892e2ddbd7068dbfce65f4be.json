@@ -1,0 +1,49 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-5d4ea5c85d91bb8d892e2ddbd7068dbfce65f4be",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.5"
+  },
+  "userSourceNameMap": {
+    "contracts/Voting.sol": "project/contracts/Voting.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Voting.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract Voting{\r\n        string[] public candidateList;\r\n        mapping(string => uint) public votesReceived;\r\n        mapping(address => bool) public hasVoted;\r\n    \r\n        constructor(string[] memory _candidates) {\r\n                candidateList = _candidates;\r\n        }\r\n\r\n        function castVote(string memory _candidate) public {\r\n            // check if wallet has already voted, stop them if they have\r\n            require(!hasVoted[msg.sender], \"You have already voted.\");\r\n            votesReceived[_candidate]++;\r\n            hasVoted[msg.sender] = true;\r\n        }\r\n        \r\n        function getVotes(string memory _candidate) public view returns (uint) {\r\n                return votesReceived[_candidate];\r\n        }\r\n}\r\n"
+      }
+    }
+  }
+}
