@@ -75,6 +75,188 @@ body::before {
     padding: 88px 32px 140px;
 }
 
+.hero {
+    margin-bottom: 32px;
+}
+
+/* ---- Topbar ---- */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    margin-bottom: 32px;
+}
+
+.topbar .account .label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.topbar .account code {
+    font-family: 'Inter', monospace;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+button.primary {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.015em;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+    box-shadow:
+        0 4px 14px rgba(124, 58, 237, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: transform 180ms var(--ease), filter 180ms var(--ease), box-shadow 280ms var(--ease);
+}
+
+button.primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow:
+        0 8px 28px rgba(124, 58, 237, 0.55),
+        0 0 32px rgba(167, 139, 250, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+button.primary:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+}
+
+button.primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: grayscale(0.35);
+}
+
+/* ---- Phase card ---- */
+
+.phase-card {
+    padding: 22px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    margin-bottom: 32px;
+}
+
+.phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.phase-header .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-muted);
+}
+
+.phase-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.18);
+    color: var(--primary-light);
+    border: 1px solid rgba(167, 139, 250, 0.4);
+}
+
+.phase-tag[data-phase="voting"] {
+    background: rgba(52, 211, 153, 0.15);
+    color: #6ee7b7;
+    border-color: rgba(52, 211, 153, 0.4);
+}
+
+.phase-tag[data-phase="reveal"] {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fcd34d;
+    border-color: rgba(251, 191, 36, 0.4);
+}
+
+.phase-tag[data-phase="ended"] {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border-color: rgba(148, 163, 184, 0.4);
+}
+
+.countdown {
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+/* ---- Admin panel ---- */
+
+.admin-panel {
+    padding: 26px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 16px;
+    margin-bottom: 32px;
+}
+
+.admin-panel h2 {
+    margin-bottom: 14px;
+}
+
+.admin-panel textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    background: rgba(10, 12, 28, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Inter', monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+    transition: border-color 200ms var(--ease);
+}
+
+.admin-panel textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+}
+
+/* ---- Misc helpers ---- */
+
+.muted {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.muted.success { color: #6ee7b7; }
+.muted.error { color: #fca5a5; }
+
+.phase-body-section { margin-bottom: 48px; }
+.phase-body-section h3 { margin-top: 8px; margin-bottom: 16px; color: var(--text); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.1rem; }
+
 /* ---- Typography ---- */
 
 h1 {

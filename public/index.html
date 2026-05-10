@@ -3,23 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Voting</title>
+    <title>Student Council Election</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Blockchain Voting System</h1>
-        <p class="subtitle">Powered by Ethereum Smart Contract</p>
+        <header class="hero">
+            <h1>Student Council Election</h1>
+            <p class="subtitle">Transparent, tamper-proof voting on Ethereum</p>
+        </header>
 
-        <div class="candidates">
-            <h2>Candidates</h2>
-            <div id="candidate-list"></div>
+        <div class="topbar">
+            <div class="account">
+                <span class="label">Connected wallet</span>
+                <code id="account">— not connected —</code>
+            </div>
+            <button id="connect-btn" class="primary">Connect MetaMask</button>
         </div>
 
-        <div class="results">
-            <h2>Live Results</h2>
-            <div id="results-list"></div>
-        </div>
+        <section class="phase-card">
+            <div class="phase-header">
+                <span class="label">Current phase</span>
+                <span id="phase" class="phase-tag" data-phase="registration">Registration</span>
+            </div>
+            <p id="countdown" class="countdown muted">Waiting for wallet…</p>
+        </section>
+
+        <section id="admin-panel" class="admin-panel" style="display:none"></section>
+
+        <section class="phase-body-section">
+            <h2>Your ballot</h2>
+            <div id="phase-body">
+                <p class="muted">Connect your wallet to participate.</p>
+            </div>
+        </section>
+
+        <section class="results">
+            <h2>Live results</h2>
+            <ul id="results-list"></ul>
+        </section>
 
         <div id="status" class="status"></div>
     </div>
