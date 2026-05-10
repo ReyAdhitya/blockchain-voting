@@ -8,7 +8,7 @@ Built as a learning project to demonstrate where blockchain genuinely solves pro
 
 ## 🔗 Live demo
 
-- **App:** _coming — paste your Vercel URL here_
+- **App:** <https://blockchain-voting-gamma.vercel.app>
 - **Contract on Sepolia:** [`0x205c0757B53EC9b2C02553AFD85b6240fa67530B`](https://sepolia.etherscan.io/address/0x205c0757B53EC9b2C02553AFD85b6240fa67530B)
 
 To use the live demo:
