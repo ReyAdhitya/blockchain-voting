@@ -8,11 +8,11 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 const ElectionModule = buildModule("ElectionModule", (m) => {
     const candidates = m.getParameter("candidates", ["Alice", "Bob", "Charlie"]);
 
-    // Defaults are short for local testing. For a real student council vote
-    // you might want days, e.g. 86400 * 2 (two days).
-    const registrationSeconds = m.getParameter("registrationSeconds", 600);   // 10 min
-    const votingSeconds       = m.getParameter("votingSeconds",       1200);  // 20 min
-    const revealSeconds       = m.getParameter("revealSeconds",       600);   // 10 min
+    // Defaults give comfortable testing windows on Sepolia. For a real
+    // student council vote you'd want days — 86400 * 2 = two days, etc.
+    const registrationSeconds = m.getParameter("registrationSeconds", 3600);   // 1 hour
+    const votingSeconds       = m.getParameter("votingSeconds",       7200);   // 2 hours
+    const revealSeconds       = m.getParameter("revealSeconds",       3600);   // 1 hour
 
     const election = m.contract("Election", [
         candidates,

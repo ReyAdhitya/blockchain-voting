@@ -6,7 +6,7 @@
 // Deployed Election contract on Sepolia testnet.
 // To redeploy, run `npx hardhat ignition deploy ignition/modules/Election.ts --network sepolia`
 // and paste the new address here.
-const CONTRACT_ADDRESS = "0x33D4A469B18C969adE3d0aff01B50CA390c760De";
+const CONTRACT_ADDRESS = "0x205c0757B53EC9b2C02553AFD85b6240fa67530B";
 
 const ABI = [
     "function admin() view returns (address)",
