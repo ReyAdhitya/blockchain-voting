@@ -26,7 +26,6 @@ const ABI = [
 ];
 
 const PHASE_KEYS  = ["phaseRegistration", "phaseVoting", "phaseReveal", "phaseEnded"];
-const PHASE_DATA  = ["registration", "voting", "reveal", "ended"];
 const PHASE_PROGRESS = ["0%", "33%", "66%", "100%"];
 
 const AVATAR_GRADIENTS = [
@@ -436,6 +435,7 @@ function renderPhaseHeader(phaseNum, regDl, voteDl, revDl) {
 // ---- Phase body ------------------------------------------------------------
 
 async function renderPhaseBody(phaseNum) {
+    if (phaseNum === 1 && currentVoteSelection !== null) return;
     phaseBodyEl.innerHTML = "";
 
     if (phaseNum === 0) {
@@ -620,6 +620,7 @@ async function commitVote(candidate, button) {
         }
 
         showToast(t("voteCommittedSuccess"));
+        currentVoteSelection = null;
         await refreshAll();
     } catch (err) {
         console.error(err);
@@ -687,7 +688,10 @@ async function renderAdminPanel(phaseNum) {
     adminPanelEl.appendChild(head);
 
     if (phaseNum !== 0) {
-        adminPanelEl.innerHTML += `<p class="muted">${t("registrationClosed")}</p>`;
+        const p = document.createElement("p");
+        p.className = "muted";
+        p.textContent = t("registrationClosed");
+        adminPanelEl.appendChild(p);
         return;
     }
 
