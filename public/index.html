@@ -1,52 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark" data-palette="emerald">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Council Election</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>VoteChain — Student Council Election</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="hero">
-            <h1>Student Council Election</h1>
-            <p class="subtitle">Transparent, tamper-proof voting on Ethereum</p>
-        </header>
 
-        <div class="topbar">
-            <div class="account">
-                <span class="label">Connected wallet</span>
-                <code id="account">— not connected —</code>
-            </div>
-            <button id="connect-btn" class="primary">Connect MetaMask</button>
+<!-- ambient backdrop -->
+<div class="backdrop">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+<div class="grid-overlay"></div>
+<div class="noise"></div>
+
+<!-- nav -->
+<nav class="top">
+  <div class="wrap nav-row">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+      <div class="brand-name"><b data-i18n="brand">VoteChain</b><span>· Sepolia</span></div>
+    </div>
+    <div class="nav-center">
+      <a href="#ballot" class="active" data-i18n="navVote">Vote</a>
+      <a href="#results-section" data-i18n="navResults">Results</a>
+      <a href="#" data-i18n="navAudit">Audit</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-toggle" id="lang">
+        <span class="pill"></span>
+        <button data-lang="en">EN</button>
+        <button data-lang="id">ID</button>
+      </div>
+      <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- hero -->
+  <section class="hero wrap">
+    <span class="eyebrow reveal">
+      <span class="dot"></span>
+      <span data-i18n="heroBadge">Blockchain Powered</span>
+      <span class="sep">·</span>
+      <span class="chain">block #<span id="block-num">—</span></span>
+    </span>
+    <h1 class="title reveal" data-i18n-html="titleHtml">Student Council<br/><em>Election</em> 2026</h1>
+    <p class="subtitle reveal">
+      <span data-i18n="subtitle">Transparent, tamper-proof voting on Ethereum.</span>
+      <span class="verify">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        <span data-i18n="verifyLine">Every vote is verifiable on-chain.</span>
+      </span>
+    </p>
+
+    <div class="live-strip reveal" id="strip">
+      <div class="stat">
+        <div class="lbl"><span class="pulse-dot"></span> <span data-i18n="statBlock">Block Height</span></div>
+        <div class="val" id="s-block">—</div>
+      </div>
+      <div class="stat">
+        <div class="lbl"><span data-i18n="statVotes">Total Votes</span></div>
+        <div class="val" id="s-votes">—</div>
+      </div>
+      <div class="stat">
+        <div class="lbl"><span data-i18n="statPhase">Current Phase</span></div>
+        <div class="val" id="s-phase" style="font-size:18px">—</div>
+      </div>
+      <div class="stat">
+        <div class="lbl"><span data-i18n="statNetwork">Network</span></div>
+        <div class="val" style="font-size:16px">Sepolia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- wallet + phase -->
+  <section class="stack wrap">
+    <div class="card reveal">
+      <div class="card-row">
+        <div>
+          <div class="field-label" data-i18n="connectedWallet">Connected Wallet</div>
+          <div class="field-value muted" id="account">— not connected —</div>
         </div>
-
-        <section class="phase-card">
-            <div class="phase-header">
-                <span class="label">Current phase</span>
-                <span id="phase" class="phase-tag" data-phase="registration">Registration</span>
-            </div>
-            <p id="countdown" class="countdown muted">Waiting for wallet…</p>
-        </section>
-
-        <section id="admin-panel" class="admin-panel" style="display:none"></section>
-
-        <section class="phase-body-section">
-            <h2>Your ballot</h2>
-            <div id="phase-body">
-                <p class="muted">Connect your wallet to participate.</p>
-            </div>
-        </section>
-
-        <section class="results">
-            <h2>Live results</h2>
-            <ul id="results-list"></ul>
-        </section>
-
-        <div id="status" class="status"></div>
+        <button class="btn" id="connect-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="13" rx="2.5"/><path d="M16 13h.01"/><path d="M22 10V8a2 2 0 0 0-2-2H5.5"/>
+          </svg>
+          <span data-i18n="connectMetaMask">Connect Wallet</span>
+        </button>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.16.0/dist/ethers.umd.min.js"></script>
-    <script src="app.js"></script>
+    <div class="card reveal">
+      <div class="card-row">
+        <div>
+          <div class="field-label" data-i18n="currentPhase">Current Phase</div>
+          <div class="field-value" id="countdown">Waiting for wallet…</div>
+        </div>
+        <span class="phase-pill"><span class="dot"></span><span id="phase">—</span></span>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="step" id="step-0"><div class="node">01</div><div class="lbl" data-i18n="phaseRegistration">Registration</div><div class="sub" id="sub-0">—</div></div>
+        <div class="step" id="step-1"><div class="node">02</div><div class="lbl" data-i18n="phaseVoting">Voting</div><div class="sub" id="sub-1">—</div></div>
+        <div class="step" id="step-2"><div class="node">03</div><div class="lbl" data-i18n="phaseReveal">Reveal</div><div class="sub" id="sub-2">—</div></div>
+        <div class="step" id="step-3"><div class="node">04</div><div class="lbl" data-i18n="phaseEnded">Ended</div><div class="sub" id="sub-3">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- admin panel -->
+  <section id="admin-panel" class="wrap" style="display:none"></section>
+
+  <!-- ballot -->
+  <section id="ballot" class="wrap">
+    <div class="section-head reveal">
+      <h2><span data-i18n="yourBallot">Your Ballot</span></h2>
+      <div class="meta" data-i18n="contractLabel">Contract</div>
+    </div>
+    <div id="phase-body">
+      <div class="card"><p class="muted" data-i18n="connectToParticipate">Connect your wallet to participate.</p></div>
+    </div>
+  </section>
+
+  <!-- results -->
+  <section id="results-section" class="wrap" style="margin-top:56px; margin-bottom:96px;">
+    <div class="section-head reveal">
+      <h2><span data-i18n="liveResults">Live Results</span></h2>
+    </div>
+    <ul id="results-list" class="results-list"></ul>
+  </section>
+
+  <footer class="wrap">
+    <div>VoteChain · open-source election infrastructure</div>
+    <div class="links">
+      <a href="https://sepolia.etherscan.io/address/0x205c0757B53EC9b2C02553AFD85b6240fa67530B" target="_blank">contract ↗</a>
+      <a href="https://github.com/reyyzhrr/blockchain-voting" target="_blank">github ↗</a>
+    </div>
+  </footer>
+
+</main>
+
+<!-- toast -->
+<div class="toast" id="toast">
+  <svg class="toast-icon ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+  <svg class="toast-icon err" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+  <span id="toast-msg">—</span>
+</div>
+
+<!-- tweaks panel -->
+<div id="tweaks">
+  <div class="t-title"><span data-i18n="tweaksTitle">Accent</span> <button id="tweaks-close">×</button></div>
+  <div class="swatches">
+    <div class="swatch em active" data-palette="emerald" title="Emerald"></div>
+    <div class="swatch cy" data-palette="cyan" title="Cyan"></div>
+    <div class="swatch am" data-palette="amber" title="Amber"></div>
+    <div class="swatch ro" data-palette="rose" title="Rose"></div>
+    <div class="swatch in" data-palette="indigo" title="Indigo"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.16.0/dist/ethers.umd.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
